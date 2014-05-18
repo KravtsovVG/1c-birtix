@@ -9,7 +9,7 @@ class COnpayPayment {
 	static $currency = array('RUR', 'EUR', 'USD',
 		'WMB', 'WME', 'WMR', 'WMU', 'WMZ', 
 		'LIE', 'LIQ', 'LIU', 'LIZ',
-		'TST');
+		'MBZ', 'TST');
 	static $form_design = array('2' => 'FORM_DEFAULT', '7' => 'DESIGN_N7', '8' => 'DESIGN_N8', '9' => 'MOBILE_FORM');
 	static $_df_pay_mode = "fix";
 	static $_df_form_id = "7";
