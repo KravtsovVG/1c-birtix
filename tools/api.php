@@ -12,10 +12,17 @@ else
 if(!require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php")) die('prolog_before.php not found!');
 
 if(CModule::IncludeModule("onpay.sale")) {
-	if($_REQUEST['type']=='check') {
+	$rqst = COnpayPaymentV2::GetData();
+	if($rqst['type'] == 'check') {
+		COnpayPaymentV2::CheckAction($rqst);
+	} elseif($rqst['type'] == 'pay') {
+		COnpayPaymentV2::PayAction($rqst);
+	} elseif($_REQUEST['type'] == 'check') {
 		COnpayPayment::CheckAction($_REQUEST);
-	} elseif($_REQUEST['type']=='pay') {
+	} elseif($_REQUEST['type'] == 'pay') {
 		COnpayPayment::PayAction($_POST);
+	} else {
+		COnpayPayment::SaveLog(array_merge($_REQUEST, array('INPUT.REQUEST' => $rqst)));
 	}
 }
 

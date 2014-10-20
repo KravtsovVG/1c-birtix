@@ -116,7 +116,6 @@ Class onpay_sale extends CModule
 	{
 		CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/onpay.sale/install/sale_payment/onpay.sale/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/php_interface/include/sale_payment/onpay.sale/");
 		CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/onpay.sale/install/tools/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/tools/");
-//		CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/onpay.sale/install/wizards", $_SERVER["DOCUMENT_ROOT"]."/bitrix/wizards", True, True);
 		return true;
 	}
 

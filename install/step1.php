@@ -1,28 +1,16 @@
-<?if(!check_bitrix_sessid()) return;?>
-<?
+<?if(!check_bitrix_sessid()) return;
+
 global $errors;
 $module_id = 'onpay.sale';
-
+$cls_path = str_replace("install/step1.php", "", __FILE__)."classes/onpay_payment.php";
+include_once $cls_path;
 
 if($errors!==false):
 	for($i=0; $i<count($errors); $i++)
 		$alErrors .= $errors[$i]."<br>";
 	echo CAdminMessage::ShowMessage(Array("TYPE"=>"ERROR", "MESSAGE" =>GetMessage("MOD_INST_ERR"), "DETAILS"=>$alErrors, "HTML"=>true));
 endif;
-$arAllOptions = Array(
-	Array("login", GetMessage("ONPAY.SALE_OPTIONS_LOGIN")." ", Array("text", ""), GetMessage("ONPAY.SALE_OPTIONS_LOGIN_DESC")),
-	Array("api_in_key", GetMessage("ONPAY.SALE_OPTIONS_API_IN_KEY")." ", Array("text", 60), GetMessage("ONPAY.SALE_OPTIONS_API_IN_KEY_DESC")),
-	Array("success_url", GetMessage("ONPAY.SALE_OPTIONS_SUCCESS_URL")." ", Array("text", 60), GetMessage("ONPAY.SALE_OPTIONS_SUCCESS_URL_DESC")),
-	Array("fail_url", GetMessage("ONPAY.SALE_OPTIONS_FAIL_URL")." ", Array("text", 60), GetMessage("ONPAY.SALE_OPTIONS_FAIL_URL_DESC")),
-	Array("iframe_form", GetMessage("ONPAY.SALE_OPTIONS_IFRAME_FORM")." ", Array("checkbox", 60), GetMessage("ONPAY.SALE_OPTIONS_IFRAME_FORM_DESC")),
-	Array("convert", GetMessage("ONPAY.SALE_OPTIONS_CONVERT")." ", Array("checkbox", 60), GetMessage("ONPAY.SALE_OPTIONS_CONVERT_DESC")),
-);
-if(CModule::IncludeModule("currency")) {
-	$lcur = CCurrency::GetList(($b="name"), ($order1="asc"), LANGUAGE_ID);
-	while($lcur_res = $lcur->Fetch()) {
-		$arAllOptions[] = Array("currency_".$lcur_res['CURRENCY'], GetMessage("ONPAY.SALE_OPTIONS_CURRENCY", array("#CURRENCY#"=>$lcur_res['CURRENCY']))." ", Array("currency"), GetMessage("ONPAY.SALE_OPTIONS_CURRENCY_DESC"));
-	}
-}
+$arAllOptions = COnpayPayment::_GetAllOptions();
 ?>
 <form action="<?echo $APPLICATION->GetCurPage()?>" name="form1">
 <?=bitrix_sessid_post()?>
@@ -63,9 +51,24 @@ if(CModule::IncludeModule("currency")) {
 						<input type="text" size="<?echo $type[1]?>" maxlength="255" value="<?echo htmlspecialchars($val)?>" name="<?echo htmlspecialchars($arOption[0])?>">
 					<?elseif($type[0]=="textarea"):?>
 						<textarea rows="<?echo $type[1]?>" cols="<?echo $type[2]?>" name="<?echo htmlspecialchars($arOption[0])?>"><?echo htmlspecialchars($val)?></textarea>
-					<?elseif($type[0]=="currency"):?>
+					<?elseif($type[0]=="currency"):
+						$arCurrency = COnpayPayment::$currency;
+						$arCurrencyCaption = array();
+						foreach($arCurrency as $currency) {
+							$arCurrencyCaption[$currency] = GetMessage("ONPAY.SALE_OPTIONS_CURRENCY_".strtoupper($currency)."_CAPTION");
+							$arCurrencyCaption[$currency] = $arCurrencyCaption[$currency] ? $arCurrencyCaption[$currency] : $currency;
+						}
+						?>
 						<select name="<?echo htmlspecialchars($arOption[0])?>"><option value=""><?=GetMessage("ONPAY.SALE_OPTIONS_CURRENCY_EMPTY")?></option>
-							<?foreach(array('WMR', 'WMZ', 'WME', 'TST') as $currency):?> <option value="<?=$currency?>"<?=($val==$currency ? ' selected' : '')?>><?=$currency?></option> <?endforeach;?>
+							<?foreach($arCurrency as $currency):?> <option value="<?=$currency?>"<?=($val==$currency ? ' selected' : '')?>><?=$arCurrencyCaption[$currency]?></option> <?endforeach;?>
+						</select>
+					<?elseif($type[0]=="lang"):?>
+						<select name="<?echo htmlspecialchars($arOption[0])?>"><option value=""><?=GetMessage("ONPAY.SALE_OPTIONS_LANG_EMPTY")?></option>
+							<?foreach(array('en') as $lang):?> <option value="<?=$lang?>"<?=($val==$lang ? ' selected' : '')?>><?=GetMessage("ONPAY.SALE_OPTIONS_LANG_".strtoupper($lang)."_CAPTION")?></option> <?endforeach;?>
+						</select>
+					<?elseif($type[0]=="form_id"):?>
+						<select name="<?echo htmlspecialchars($arOption[0])?>">
+							<?foreach(COnpayPayment::$form_design as $i=>$caption):?> <option value="<?=$i?>"<?=($val==$i ? ' selected' : '')?>><?=(GetMessage("ONPAY.SALE_OPTIONS_FORMID_".$caption."_CAPTION") ? GetMessage("ONPAY.SALE_OPTIONS_FORMID_".$caption."_CAPTION") : $caption)?></option> <?endforeach;?>
 						</select>
 					<?endif?>
 			</td>
