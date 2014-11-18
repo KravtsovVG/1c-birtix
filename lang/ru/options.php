@@ -1,11 +1,11 @@
 <?
 $MESS ['ONPAY.SALE_OPTIONS_HOST_IP'] = "IP-адрес вашего сервера";
 $MESS ['ONPAY.SALE_OPTIONS_URL_API'] = "URL скрипта для API-запросов";
-$MESS ['ONPAY.SALE_OPTIONS_URL_API_DESC'] = "Параметр \"URL API\" в личном кабинете системы OnPay.ru";
-$MESS ['ONPAY.SALE_OPTIONS_LOGIN'] = "Логин в системе OnPay.ru";
-$MESS ['ONPAY.SALE_OPTIONS_LOGIN_DESC'] = "Ваше Имя пользователя в системе OnPay.ru";
+$MESS ['ONPAY.SALE_OPTIONS_URL_API_DESC'] = "Параметр \"URL API\" в личном кабинете системы Onpay.ru";
+$MESS ['ONPAY.SALE_OPTIONS_LOGIN'] = "Логин в системе Onpay.ru";
+$MESS ['ONPAY.SALE_OPTIONS_LOGIN_DESC'] = "Ваше Имя пользователя в системе Onpay.ru";
 $MESS ['ONPAY.SALE_OPTIONS_API_IN_KEY'] = "Ключ API IN";
-$MESS ['ONPAY.SALE_OPTIONS_API_IN_KEY_DESC'] = "Секретный ключ API IN указанный в личном кабинете системы OnPay.ru";
+$MESS ['ONPAY.SALE_OPTIONS_API_IN_KEY_DESC'] = "Секретный ключ API IN указанный в личном кабинете системы Onpay.ru";
 $MESS ['ONPAY.SALE_OPTIONS_SUCCESS_URL'] = "Адрес при успешной оплате";
 $MESS ['ONPAY.SALE_OPTIONS_SUCCESS_URL_DESC'] = "URL скрипта (на сайте продавца) обрабатывающего оповещения о результате платежа, например, http://site.ru/personal/order/?ID=#ORDER_ID#";
 $MESS ['ONPAY.SALE_OPTIONS_FAIL_URL'] = "Адрес при ошибке оплаты";
@@ -37,7 +37,7 @@ $MESS ['ONPAY.SALE_OPTIONS_CURRENCY_WMR_CAPTION'] = "Webmoney WMR (Рос. рубль)";
 $MESS ['ONPAY.SALE_OPTIONS_CURRENCY_WMU_CAPTION'] = "Webmoney WMU (Гривна)";
 $MESS ['ONPAY.SALE_OPTIONS_CURRENCY_WMZ_CAPTION'] = "Webmoney WMZ (Доллар)";
 $MESS ['ONPAY.SALE_OPTIONS_CURRENCY_MBR_CAPTION'] = "Банковский кошелек";
-$MESS ['ONPAY.SALE_OPTIONS_CURRENCY_DESC'] = "Выберите соответсвующую в модуле OnPay";
+$MESS ['ONPAY.SALE_OPTIONS_CURRENCY_DESC'] = "Выберите соответсвующую в модуле Onpay";
 $MESS ['ONPAY.SALE_OPTIONS_CURRENCY_EMPTY'] = "Выберите";
 $MESS ['ONPAY.SALE_OPTIONS_TICKER'] = "Основная валюта ценника";
 $MESS ['ONPAY.SALE_OPTIONS_TICKER_DESC'] = "Параметр <b>ticker</b> платёжной ссылки (по умолчанию RUR)";

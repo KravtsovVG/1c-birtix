@@ -1,11 +1,11 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 global $MESS;
 
-$sLink = "<a href=\"http://secure.onpay.ru/\" target=\"_blank\">OnPay.ru</a>";
+$sLink = "<a href=\"http://secure.onpay.ru/\" target=\"_blank\">Onpay.ru</a>";
 
-$MESS ['ONPAY.SALE_PAYMENT_ONPAY__TITLE'] = "OnPay.ru (яндекс.ƒеньги, WebMoney, VISA, MasterCard)";
+$MESS ['ONPAY.SALE_PAYMENT_ONPAY__TITLE'] = "Onpay.ru (яндекс.ƒеньги, WebMoney, VISA, MasterCard)";
 $MESS ['ONPAY.SALE_PAYMENT_ONPAY__DESCRIPTION'] = "<a href=\"http://www.onpay.ru\" target=\"_blank\">http://www.onpay.ru</a>";
-$MESS ['ONPAY.SALE_PAYMENT_ONPAY__LOGIN'] = "Ћогин в системе OnPay.ru";
+$MESS ['ONPAY.SALE_PAYMENT_ONPAY__LOGIN'] = "Ћогин в системе Onpay.ru";
 $MESS ['ONPAY.SALE_PAYMENT_ONPAY__LOGIN_DESCR'] = "¬аше »м€ пользовател€ в системе ".$sLink;
 $MESS ['ONPAY.SALE_PAYMENT_ONPAY__API_INKEY'] = " люч API IN";
 $MESS ['ONPAY.SALE_PAYMENT_ONPAY__API_INKEY_DESCR'] = "—екретный ключ API IN указанный в личном кабинете системы ".$sLink;
