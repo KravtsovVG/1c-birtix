@@ -126,6 +126,11 @@ class COnpayPayment {
 		}
 	}
 	
+	function SaveError2Log() {
+		global $APPLICATION;
+		self::SaveLog("LAST_ERROR: ".var_export($APPLICATION->LAST_ERROR, true));
+	}
+	
 	function CheckOrderPayed($order_id) {
 		$order_id = intval($order_id);
 		$ret = false;
@@ -204,19 +209,26 @@ class COnpayPayment {
 					} else {
 						$arFields = array(
 							'PS_STATUS' => 'Y',
-							'PS_STATUS_CODE' => 0,
+							'PS_STATUS_CODE' => '0',
 							'PS_STATUS_DESCRIPTION' => 'OK',
 							'PS_STATUS_MESSAGE' => '',
 							'PS_SUM' => floatval($arOrder['PS_SUM']) + $order_amount,
 							'PS_CURRENCY' => $pay['currency'],
 							'PS_RESPONSE_DATE' => Date(CDatabase::DateFormatToPHP(CLang::GetDateFormat("FULL", LANG))),
 							);
-						foreach($_request as $key=>$val) $arFields['PS_STATUS_MESSAGE'] .= "{$key}:{$val};\n";
+						foreach($_request as $key=>$val) {
+							if(!in_array($key, array('onpay_id', 'pay_for', 'paid_amount', 'paymentDateTime'))) continue;
+							if($val) $arFields['PS_STATUS_MESSAGE'] .= "{$key}:{$val};\n";
+						}
 						self::SaveLog($arFields);
-						if(CSaleOrder::Update($arOrder["ID"], $arFields) && CSaleOrder::PayOrder($arOrder["ID"], "Y")) {
+						if(CSaleOrder::PayOrder($arOrder["ID"], "Y")) {
 							$payOut['code'] = 0;
 							$text = "OK";
+							if(CSaleOrder::Update($arOrder["ID"], $arFields) === false) {
+								self::SaveError2Log();
+							}
 						} else {
+							self::SaveError2Log();
 							$text = "Error in mechant database queries: operation or balance tables error";
 						}
 					}
@@ -389,16 +401,22 @@ class COnpayPaymentV2 extends COnpayPayment {
 				if($arOrder['PAYED'] == 'N' && $needSum <= $order_amount && $currency == $pay['currency']) {
 					$arFields = array(
 							'PS_STATUS' => 'Y',
-							'PS_STATUS_CODE' => 0,
+							'PS_STATUS_CODE' => '0',
 							'PS_STATUS_DESCRIPTION' => 'OK',
-							'PS_STATUS_MESSAGE' => self::_ar2text($_request),
+							'PS_STATUS_MESSAGE' => self::_ar2text($_request['payment']),
 							'PS_SUM' => floatval($arOrder['PS_SUM']) + $order_amount,
 							'PS_CURRENCY' => $pay['currency'],
 							'PS_RESPONSE_DATE' => Date(CDatabase::DateFormatToPHP(CLang::GetDateFormat("FULL", LANG))),
 							);
 					self::SaveLog($arFields);
-					if(CSaleOrder::Update($arOrder["ID"], $arFields) && CSaleOrder::PayOrder($arOrder["ID"], "Y")) {
+					if(CSaleOrder::PayOrder($arOrder["ID"], "Y")) {
 						$payOut['status'] = 'true';
+						if(CSaleOrder::Update($arOrder["ID"], $arFields) === false) {
+							self::SaveError2Log();
+						}
+					} else {
+						self::SaveError2Log();
+						self::SaveLog("LAST_ERROR: ".var_export($APPLICATION->LAST_ERROR, true));
 					}
 				}
 			}

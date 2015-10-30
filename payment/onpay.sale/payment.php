@@ -3,7 +3,6 @@
 	if(!CModule::IncludeModule("onpay.sale")) return;
 
 	$order_id = CSalePaySystemAction::GetParamValue("ORDER_ID");
-	$order_payed = CSalePaySystemAction::GetParamValue("ORDER_PAYED");
 	$sum = floatval(CSalePaySystemAction::GetParamValue("SHOULD_PAY"));
 	$currency = CSalePaySystemAction::GetParamValue("CURRENCY");
 	$user_email = CSalePaySystemAction::GetParamValue("EMAIL");
